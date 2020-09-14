@@ -1,0 +1,32 @@
+* Force an application to bind to a specific IP
+** Description
+This repo serves as a mirror of a bind shim written by Robert J. McKay, which was downloaded from [[http://wari.mckay.com/~rm/bindhack.c.txt][here]].  Another copy of it exists [[http://daniel-lange.com/software/bindhack.c][here]].
+
+More information about the shim and how and why to use it can be found in [[http://daniel-lange.com/authors/1-Daniel-Lange][Daniel Lange]]'s article [[http://daniel-lange.com/archives/53-Binding-applications-to-a-specific-IP.html][Binding applications to a specific IP]]
+** Original information found in the comments of bindhack.c
+A simple LD_PRELOAD hack to let you specify the source address
+for all outbound connections or if you want to limit a process
+to only listening on one IP
+
+Copyright (C) 2005 Robert J. McKay <robert@mckay.com>
+
+License: You can do whatever you want with it.
+
+
+Compile:
+
+gcc -fPIC -static -shared -o bindhack.so bindhack.c -lc -ldl
+
+You can add -DDEBUG to see debug output.
+
+Usage:
+
+LD_PRELOAD=/path/to/bindhack.so <command>
+
+eg:
+
+LD_PRELOAD=/home/rm/bindhack.so telnet example.com
+
+you can also specify the address to use at runtime like so:
+
+LD_PRELOAD=/home/rm/bindhack.so BIND_SRC=192.168.0.1 telnet example.com
